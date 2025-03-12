@@ -1,8 +1,7 @@
 import React from "react";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 
 const Card = ({ product, cart, setCart }) => {
-
   const addToCart = () => {
     const existingProduct = cart.find(item => item.id === product.id);
 
@@ -13,7 +12,7 @@ const Card = ({ product, cart, setCart }) => {
     if (existingProduct) {
       newCart = cart.map(item =>
         item.id === product.id
-          ? { ...item, quantity: item.quantity + 1 } 
+          ? { ...item, quantity: item.quantity + 1 }
           : item
       );
       toast.info(`${product.brand} quantity increased!`, {
@@ -22,7 +21,6 @@ const Card = ({ product, cart, setCart }) => {
         hideProgressBar: false,
         closeOnClick: true,
         draggable: true,
-
       });
     } else {
       newCart = [...cart, { ...product, quantity: 1 }];
@@ -48,6 +46,8 @@ const Card = ({ product, cart, setCart }) => {
     }
   };
 
+  const isInCart = cart.some(item => item.id === product.id);
+
   return (
     <div className="bg-[#ddd6ff] shadow-lg rounded-2xl p-4 w-64 border border-gray-200">
       <h3 className="text-blue-600 font-semibold text-lg truncate">
@@ -68,7 +68,7 @@ const Card = ({ product, cart, setCart }) => {
         onClick={addToCart}
         className={`mt-4 text-white px-4 py-2 rounded-lg w-full font-semibold ${getButtonColor(product.rating)}`}
       >
-        In Table
+        {isInCart ? "In Table" : "Add to Table"}
       </button>
     </div>
   );

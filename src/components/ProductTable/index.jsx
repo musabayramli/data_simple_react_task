@@ -4,20 +4,23 @@ const ProductTable = ({ cart, setCart }) => {
   const safeCart = cart || [];
 
   const updateQuantity = (id, amount) => {
-    const updatedCart = safeCart.map(item =>
+    const updatedCart = safeCart.map((item) =>
       item.id === id
         ? { ...item, quantity: Math.max(1, item.quantity + amount) }
         : item
     );
-    setCart(updatedCart); 
-  };
-
-  const removeProduct = (id) => {
-    const updatedCart = safeCart.filter(item => item.id !== id);
     setCart(updatedCart);
   };
 
-  const totalAmount = safeCart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const removeProduct = (id) => {
+    const updatedCart = safeCart.filter((item) => item.id !== id);
+    setCart(updatedCart);
+  };
+
+  const totalAmount = safeCart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="p-6 bg-gray-900 text-white">
@@ -35,7 +38,9 @@ const ProductTable = ({ cart, setCart }) => {
         <tbody>
           {safeCart.length === 0 ? (
             <tr>
-              <td colSpan="5" className="p-2 text-center text-red-600">No products in cart.</td>
+              <td colSpan="5" className="p-2 text-center text-red-600">
+                No products in cart.
+              </td>
             </tr>
           ) : (
             safeCart.map((item) => (
@@ -47,26 +52,28 @@ const ProductTable = ({ cart, setCart }) => {
                     className="w-16 h-16 object-contain mx-auto"
                   />
                 </td>
-                <td className="p-2">{item.name}</td>
+                <td className="p-2">{item.title}</td>
                 <td className="p-2">${item.price}</td>
                 <td className="p-2">
-                  <button 
-                    onClick={() => updateQuantity(item.id, -1)} 
+                  <button
+                    onClick={() => updateQuantity(item.id, -1)}
                     className="bg-blue-800 px-2 py-1 rounded hover:bg-blue-500 text-white"
                   >
                     -
                   </button>
-                  <span className="px-3 py-1 mx-1 bg-white text-black rounded">{item.quantity}</span>
-                  <button 
-                    onClick={() => updateQuantity(item.id, 1)} 
+                  <span className="px-3 py-1 mx-1 bg-white text-black rounded">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(item.id, 1)}
                     className="bg-blue-800 px-2 py-1 rounded hover:bg-blue-500 text-white"
                   >
                     +
                   </button>
                 </td>
                 <td className="p-2">
-                  <button 
-                    onClick={() => removeProduct(item.id)} 
+                  <button
+                    onClick={() => removeProduct(item.id)}
                     className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 text-white"
                   >
                     Remove
@@ -77,7 +84,9 @@ const ProductTable = ({ cart, setCart }) => {
           )}
         </tbody>
       </table>
-      <div className="flex justify-end mt-4 font-bold">Total: ${totalAmount.toFixed(2)}</div>
+      <div className="flex justify-end mt-4 font-bold">
+        Total: ${totalAmount.toFixed(2)}
+      </div>
     </div>
   );
 };
